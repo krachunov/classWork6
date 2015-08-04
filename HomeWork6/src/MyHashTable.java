@@ -17,6 +17,7 @@ public class MyHashTable<TKey, TValue> implements
 	public MyHashTable(int capacity) {
 		this.slot = new LinkedList[capacity];
 		setCount(0);
+		
 	}
 
 	public MyHashTable() {
@@ -61,7 +62,6 @@ public class MyHashTable<TKey, TValue> implements
 		}
 
 		return null;
-
 	}
 
 	/**
@@ -102,7 +102,7 @@ public class MyHashTable<TKey, TValue> implements
 		for (KeyValue<TKey, TValue> element : slot[slotNumber]) {
 			if (element.key.equals(key)) {
 				element.setValue(value);
-				break;
+				return;
 			}
 		}
 		KeyValue<TKey, TValue> newElement = new KeyValue<TKey, TValue>(key,
@@ -138,7 +138,8 @@ public class MyHashTable<TKey, TValue> implements
 		for (List<KeyValue<TKey, TValue>> element : this.slot) {
 			if (element != null) {
 				for (KeyValue<TKey, TValue> keyValue : element) {
-					newHashTable.add(keyValue.getKey(), keyValue.getValue());
+					newHashTable.addOrReplace(keyValue.getKey(),
+							keyValue.getValue());
 				}
 			}
 		}
@@ -156,9 +157,11 @@ public class MyHashTable<TKey, TValue> implements
 	public KeyValue<TKey, TValue> find(TKey key) {
 		int slotNumber = this.findSlotNumber(key);
 		List<KeyValue<TKey, TValue>> element = getSlot()[slotNumber];
-		for (KeyValue<TKey, TValue> keyValue : element) {
-			if (keyValue.key.equals(key)) {
-				return keyValue;
+		if (element != null) {
+			for (KeyValue<TKey, TValue> keyValue : element) {
+				if (keyValue.key.equals(key)) {
+					return keyValue;
+				}
 			}
 		}
 		return null;
@@ -219,5 +222,16 @@ public class MyHashTable<TKey, TValue> implements
 	public void clear() {
 		this.slot = null;
 		setCount(0);
+	}
+
+	public void printAllElement() {
+		for (List<KeyValue<TKey, TValue>> element : getSlot()) {
+			if (element != null) {
+				for (KeyValue<TKey, TValue> keyValue : element) {
+					System.out.println(keyValue.getKey() + ": -> "
+							+ keyValue.getValue());
+				}
+			}
+		}
 	}
 }
