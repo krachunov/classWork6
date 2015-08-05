@@ -199,7 +199,11 @@ public class MyHashTable<TKey, TValue> implements
 			return outValue;
 		}
 	}
-
+/**
+ * 
+ * @param key
+ * @return Value or null if do not exist
+ */
 	public TValue tryGetValue(TKey key) {
 		return tryGetValue(key, null);
 	}
