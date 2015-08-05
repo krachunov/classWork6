@@ -1,3 +1,9 @@
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class MyBinnaryTree<T> {
 	private Node<T> root;
 
@@ -21,6 +27,7 @@ public class MyBinnaryTree<T> {
 		private Node leftChild;
 		private Node rightChild;
 		private Node parent;
+		private boolean isLeft;
 
 		protected Node(T value) {
 			setValue(value);
@@ -59,6 +66,14 @@ public class MyBinnaryTree<T> {
 			this.parent = parent;
 		}
 
+		public boolean isLeft() {
+			return isLeft;
+		}
+
+		public void setLeft(boolean isLeft) {
+			this.isLeft = isLeft;
+		}
+
 		protected void addChild(T value) {
 			if ((Integer) value == (Integer) this.getValue()) {
 				throw new IllegalArgumentException("This element already exist");
@@ -79,6 +94,7 @@ public class MyBinnaryTree<T> {
 					Node newNode = new Node(value);
 					this.setLeftChild(newNode);
 					newNode.setParent(this);
+					newNode.setLeft(true);
 					return;
 				} else {
 					getLeftChild().addChild(value);
@@ -104,6 +120,57 @@ public class MyBinnaryTree<T> {
 			}
 			return null;
 		}
+
+		/**
+		 * 
+		 * @param 41
+		 * @return - min value from right child, starting from given node
+		 */
+		protected Node findMinimumValue(T value) {
+			Node<T> localRoot = search(value);
+			Queue<Node> queue = new LinkedList<Node>();
+			Node min = new Node((Integer) (Integer.MAX_VALUE));
+			queue.add(localRoot.getRightChild());
+			while (queue.size() > 0) {
+				Node<T> currentElement = queue.poll();
+				if (currentElement.getLeftChild() != null) {
+					queue.add(currentElement.getLeftChild());
+				}
+				if (currentElement.getRightChild() != null) {
+					queue.add(currentElement.getRightChild());
+				}
+				if ((Integer) min.getValue() > (Integer) currentElement
+						.getValue()) {
+					min.setValue(currentElement.getValue());
+				}
+
+			}
+
+			return min;
+		}
+		
+		protected int findMinimumValueTEST(T value) {
+			Node<T> localRoot = search(value);
+			Queue<Node> queue = new LinkedList<Node>();
+			int min = Integer.MAX_VALUE;
+			queue.add(localRoot.getRightChild());
+			while (queue.size() > 0) {
+				Node<T> currentElement = queue.poll();
+				if (currentElement.getLeftChild() != null) {
+					queue.add(currentElement.getLeftChild());
+				}
+				if (currentElement.getRightChild() != null) {
+					queue.add(currentElement.getRightChild());
+				}
+				if (min > (Integer) currentElement.getValue()) {
+					min=(Integer)currentElement.getValue();
+				}
+
+			}
+
+			return min;
+		}
+
 	}
 
 	/**
@@ -137,19 +204,28 @@ public class MyBinnaryTree<T> {
 
 	public boolean remove(T element) {
 		Node elementToRemove = root.search(element);
-		if (elementToRemove != null) {
-			if (elementToRemove.getLeftChild() != null) {
-				elementToRemove.getLeftChild().setParent(elementToRemove.getParent());
-				//TODO add a
-				elementToRemove.getParent().setLeftChild(elementToRemove.getLeftChild());
-				return true;
-			}
-			if (elementToRemove.getRightChild() != null) {
-				elementToRemove.getRightChild().setParent(elementToRemove.getParent());
-				elementToRemove.getParent().setRightChild(elementToRemove.getRightChild());
-				return true;
-			}
+		Node parentOfElement = elementToRemove.getParent();
+		// first state
+		if ((elementToRemove.getLeftChild() != null)&& (elementToRemove.getRightChild() != null)) {
+			Node elementWhoReplace = findMin(element);
+			elementToRemove.setValue(elementToRemove.getValue());
 		}
+		// second state
+		if (elementToRemove.getLeftChild() != null) {
+
+		}
+		// third state
+		if (elementToRemove.getRightChild() != null) {
+
+		}
+
 		return false;
+	}
+
+	public Node findMin(T element) {
+		return root.findMinimumValue(element);
+	}
+	public int findMinTest(T element) {
+		return root.findMinimumValueTEST(element);
 	}
 }
