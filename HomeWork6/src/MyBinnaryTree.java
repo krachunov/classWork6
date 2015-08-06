@@ -13,7 +13,7 @@ public class MyBinnaryTree<T> implements Iterable {
 
 	public MyBinnaryTree() {
 		setRoot(null);
-		setCount(0);
+		setCount(1);
 	}
 
 	public int getCount() {
@@ -111,7 +111,6 @@ public class MyBinnaryTree<T> implements Iterable {
 					Node newNode = new Node(value);
 					this.setRightChild(newNode);
 					newNode.setParent(this);
-					count++;
 					return;
 				} else {
 					getRightChild().addChild(value);
@@ -124,7 +123,6 @@ public class MyBinnaryTree<T> implements Iterable {
 					this.setLeftChild(newNode);
 					newNode.setParent(this);
 					newNode.setLeft(true);
-					count++;
 					return;
 				} else {
 					getLeftChild().addChild(value);
@@ -180,6 +178,12 @@ public class MyBinnaryTree<T> implements Iterable {
 			return min;
 		}
 
+		/**
+		 * crawls all items used for iterator
+		 * 
+		 * @param startNode
+		 * @return
+		 */
 		public ArrayList<T> travel(Node<T> startNode) {
 			Node<T> churrentNode = startNode;
 			ArrayList<T> list = new ArrayList<T>();
@@ -212,8 +216,10 @@ public class MyBinnaryTree<T> implements Iterable {
 		if (this.getRoot() == null) {
 			Node newNode = new Node<T>(value);
 			setRoot(newNode);
+			count++;
 		} else {
 			getRoot().addChild(value);
+			count++;
 		}
 	}
 
@@ -286,6 +292,12 @@ public class MyBinnaryTree<T> implements Iterable {
 		return false;
 	}
 
+	/**
+	 * Auxiliary method for friction element
+	 * 
+	 * @param element
+	 * @return
+	 */
 	@SuppressWarnings("rawtypes")
 	private Node findMin(T element) {
 		return root.findMinimumValue(element);

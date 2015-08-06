@@ -23,9 +23,9 @@ public class BinnaryTreeTest {
 		myTree.remove(9);
 
 		for (Object object : myTree) {
-//			System.out.println(object);
+			System.out.println(object);
 		}
-		System.out.println(myTree.getCount());
+		System.out.println("Count " + myTree.getCount());
 
 	}
 
