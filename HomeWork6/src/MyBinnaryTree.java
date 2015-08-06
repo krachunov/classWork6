@@ -146,7 +146,7 @@ public class MyBinnaryTree<T> {
 				}
 				if ((Integer) min.getValue() > (Integer) currentElement
 						.getValue()) {
-					min=currentElement;
+					min = currentElement;
 				}
 
 			}
@@ -187,10 +187,10 @@ public class MyBinnaryTree<T> {
 
 	public boolean remove(T element) {
 		Node elementToRemove = root.search(element);
-		Node elementParent = elementToRemove.getParent();
 
 		if (elementToRemove != null) {
-			// if left and right child or only right child
+			// if there are elements that remove the left and right child, or
+			// just right
 			if ((elementToRemove.getLeftChild() != null)
 					&& (elementToRemove.getRightChild() != null)
 					|| (elementToRemove.getRightChild() != null)
@@ -199,12 +199,12 @@ public class MyBinnaryTree<T> {
 				Node substituteElement = findMin(element);
 				elementToRemove.setValue(substituteElement.getValue());
 
-				Node elementWhoReplaceParent = substituteElement.getParent();
+				Node substituteElementParent = substituteElement.getParent();
 				if (substituteElement.isLeft()) {
-					elementWhoReplaceParent.setLeftChild(null);
+					substituteElementParent.setLeftChild(null);
 					substituteElement.clear();
 				} else {
-					elementWhoReplaceParent.setRightChild(null);
+					substituteElementParent.setRightChild(null);
 					substituteElement.clear();
 				}
 				return true;

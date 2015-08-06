@@ -16,7 +16,9 @@ public class BinnaryTreeTest {
 		myTree.add(32);
 		myTree.add(31);
 		myTree.add(40);
-		myTree.remove(30);
+		myTree.add(8);
+		myTree.add(7);
+		myTree.remove(9);
 	
 		System.out.println("s");
 		
