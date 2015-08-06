@@ -16,8 +16,13 @@ public class BinnaryTreeTest {
 		myTree.add(32);
 		myTree.add(31);
 		myTree.add(40);
+		myTree.remove(30);
+	
+		System.out.println("s");
 		
-		myTree.findMinTest(10);
+		
+	
+		
 		
 	}
 
