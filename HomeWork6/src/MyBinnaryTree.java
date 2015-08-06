@@ -1,14 +1,27 @@
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 
-public class MyBinnaryTree<T> {
+import javax.swing.text.AttributeSet;
+import javax.swing.text.html.HTML.Tag;
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+public class MyBinnaryTree<T> implements Iterable {
 	private Node<T> root;
+	private int count;
 
 	public MyBinnaryTree() {
 		setRoot(null);
+		setCount(0);
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -24,8 +37,11 @@ public class MyBinnaryTree<T> {
 	@SuppressWarnings("hiding")
 	private class Node<T> {
 		private T value;
+		@SuppressWarnings("rawtypes")
 		private Node leftChild;
+		@SuppressWarnings("rawtypes")
 		private Node rightChild;
+		@SuppressWarnings("rawtypes")
 		private Node parent;
 		private boolean isLeft;
 
@@ -41,27 +57,32 @@ public class MyBinnaryTree<T> {
 			this.value = value;
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings("rawtypes")
 		protected Node getLeftChild() {
 			return leftChild;
 		}
 
+		@SuppressWarnings("rawtypes")
 		protected void setLeftChild(Node leftChild) {
 			this.leftChild = leftChild;
 		}
 
+		@SuppressWarnings("rawtypes")
 		protected Node getRightChild() {
 			return rightChild;
 		}
 
+		@SuppressWarnings("rawtypes")
 		protected void setRightChild(Node rightChild) {
 			this.rightChild = rightChild;
 		}
 
+		@SuppressWarnings("rawtypes")
 		protected Node getParent() {
 			return parent;
 		}
 
+		@SuppressWarnings("rawtypes")
 		protected void setParent(Node parent) {
 			this.parent = parent;
 		}
@@ -79,6 +100,7 @@ public class MyBinnaryTree<T> {
 			setValue(null);
 		}
 
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		protected void addChild(T value) {
 			if ((Integer) value == (Integer) this.getValue()) {
 				throw new IllegalArgumentException("This element already exist");
@@ -89,9 +111,11 @@ public class MyBinnaryTree<T> {
 					Node newNode = new Node(value);
 					this.setRightChild(newNode);
 					newNode.setParent(this);
+					count++;
 					return;
 				} else {
 					getRightChild().addChild(value);
+
 				}
 				// left child
 			} else {
@@ -100,14 +124,16 @@ public class MyBinnaryTree<T> {
 					this.setLeftChild(newNode);
 					newNode.setParent(this);
 					newNode.setLeft(true);
+					count++;
 					return;
 				} else {
 					getLeftChild().addChild(value);
+
 				}
 			}
 		}
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		protected Node search(T value) {
 			if (value.equals(this.getValue())) {
 				Node searchingNode = this;
@@ -128,9 +154,11 @@ public class MyBinnaryTree<T> {
 
 		/**
 		 * 
-		 * @param 41
-		 * @return - min value from right child, starting from given node
+		 * @param -
+		 * @return - Node with minimum value from right child, starting from
+		 *         given node
 		 */
+		@SuppressWarnings({ "unchecked", "rawtypes" })
 		protected Node findMinimumValue(T value) {
 			Node<T> localRoot = search(value);
 			Queue<Node> queue = new LinkedList<Node>();
@@ -148,10 +176,27 @@ public class MyBinnaryTree<T> {
 						.getValue()) {
 					min = currentElement;
 				}
-
 			}
-
 			return min;
+		}
+
+		public ArrayList<T> travel(Node<T> startNode) {
+			Node<T> churrentNode = startNode;
+			ArrayList<T> list = new ArrayList<T>();
+			Stack<Node> stack = new Stack<Node>();
+			stack.add(startNode);
+			while (stack.size() > 0) {
+				if (startNode.getRightChild() != null) {
+					stack.add(startNode.getRightChild());
+				}
+				if (startNode.getLeftChild() != null) {
+					stack.add(startNode.getLeftChild());
+				}
+				startNode = stack.pop();
+				list.add(startNode.getValue());
+			}
+			return list;
+
 		}
 
 	}
@@ -162,6 +207,7 @@ public class MyBinnaryTree<T> {
 	 * @param value
 	 *            - new element
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public void add(T value) {
 		if (this.getRoot() == null) {
 			Node newNode = new Node<T>(value);
@@ -177,20 +223,29 @@ public class MyBinnaryTree<T> {
 	 *            - searching element
 	 * @return - true or false
 	 */
+	@SuppressWarnings("rawtypes")
 	public boolean contains(T value) {
-		Node currecntNode = root.search(value);
-		if (currecntNode != null) {
+		Node currentNode = root.search(value);
+		if (currentNode != null) {
 			return true;
 		}
 		return false;
 	}
 
+	/**
+	 * 
+	 * @param element
+	 *            - element who want to remove
+	 * @return - true if removal is successful or false if not
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	public boolean remove(T element) {
+		// Find element who we want to remove
 		Node elementToRemove = root.search(element);
 
 		if (elementToRemove != null) {
 			// if there are elements that remove the left and right child, or
-			// just right
+			// just right child
 			if ((elementToRemove.getLeftChild() != null)
 					&& (elementToRemove.getRightChild() != null)
 					|| (elementToRemove.getRightChild() != null)
@@ -198,11 +253,13 @@ public class MyBinnaryTree<T> {
 
 				Node substituteElement = findMin(element);
 				elementToRemove.setValue(substituteElement.getValue());
-
+				// Remove the replacement element from its parent
 				Node substituteElementParent = substituteElement.getParent();
+				// If left child
 				if (substituteElement.isLeft()) {
 					substituteElementParent.setLeftChild(null);
 					substituteElement.clear();
+					// If right child
 				} else {
 					substituteElementParent.setRightChild(null);
 					substituteElement.clear();
@@ -214,24 +271,30 @@ public class MyBinnaryTree<T> {
 					&& (elementToRemove.getRightChild() == null)) {
 				// new element that will replace it
 				Node substituteElement = elementToRemove.getLeftChild();
-				// parent element that delete
+				// parent of elements that remove
 				Node elementWhoReplaceParent = elementToRemove.getParent();
-
+				// If the item is left that removes a child substitute in his
+				// parent left successor
 				if (elementToRemove.isLeft) {
 					elementWhoReplaceParent.setLeftChild(substituteElement);
 				} else {
 					elementWhoReplaceParent.setRightChild(substituteElement);
-
 				}
 				return true;
 			}
 		}
-
 		return false;
 	}
 
-	public Node findMin(T element) {
+	@SuppressWarnings("rawtypes")
+	private Node findMin(T element) {
 		return root.findMinimumValue(element);
+	}
+
+	@Override
+	public java.util.Iterator iterator() {
+		ArrayList<T> list = root.travel(root);
+		return list.iterator();
 	}
 
 }

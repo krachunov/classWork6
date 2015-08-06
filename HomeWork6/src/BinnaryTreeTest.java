@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 public class BinnaryTreeTest {
 
 	public static void main(String[] args) {
@@ -19,13 +21,12 @@ public class BinnaryTreeTest {
 		myTree.add(8);
 		myTree.add(7);
 		myTree.remove(9);
-	
-		System.out.println("s");
-		
-		
-	
-		
-		
+
+		for (Object object : myTree) {
+//			System.out.println(object);
+		}
+		System.out.println(myTree.getCount());
+
 	}
 
 }
