@@ -191,11 +191,11 @@ public class MyBinnaryTree<T> implements Iterable {
 			stack.add(startNode);
 			while (stack.size() > 0) {
 
-				if (startNode.getLeftChild() != null) {
-					stack.add(startNode.getLeftChild());
-				}
 				if (startNode.getRightChild() != null) {
 					stack.add(startNode.getRightChild());
+				}
+				if (startNode.getLeftChild() != null) {
+					stack.add(startNode.getLeftChild());
 				}
 				startNode = stack.pop();
 				list.add(startNode.getValue());
