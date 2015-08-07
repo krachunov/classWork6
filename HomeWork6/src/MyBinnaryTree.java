@@ -13,7 +13,7 @@ public class MyBinnaryTree<T> implements Iterable {
 
 	public MyBinnaryTree() {
 		setRoot(null);
-		setCount(1);
+		setCount(0);
 	}
 
 	public int getCount() {
@@ -185,22 +185,22 @@ public class MyBinnaryTree<T> implements Iterable {
 		 * @return
 		 */
 		public ArrayList<T> travel(Node<T> startNode) {
-			Node<T> churrentNode = startNode;
+
 			ArrayList<T> list = new ArrayList<T>();
 			Stack<Node> stack = new Stack<Node>();
 			stack.add(startNode);
 			while (stack.size() > 0) {
-				if (startNode.getRightChild() != null) {
-					stack.add(startNode.getRightChild());
-				}
+
 				if (startNode.getLeftChild() != null) {
 					stack.add(startNode.getLeftChild());
 				}
 				startNode = stack.pop();
 				list.add(startNode.getValue());
+				if (startNode.getRightChild() != null) {
+					stack.add(startNode.getRightChild());
+				}
 			}
 			return list;
-
 		}
 
 	}
