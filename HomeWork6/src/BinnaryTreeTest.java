@@ -19,6 +19,8 @@ public class BinnaryTreeTest {
 			System.out.println(object);
 		}
 		System.out.println("Count " + myTree.getCount());
+		
+	
 
 	}
 

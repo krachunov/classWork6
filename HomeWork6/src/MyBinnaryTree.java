@@ -189,7 +189,7 @@ public class MyBinnaryTree<T> implements Iterable {
 			ArrayList<T> list = new ArrayList<T>();
 			Stack<Node> stack = new Stack<Node>();
 			stack.add(startNode);
-			do {
+			while (stack.size() > 0) {
 
 				if (startNode.getRightChild() != null) {
 					stack.add(startNode.getRightChild());
@@ -199,10 +199,20 @@ public class MyBinnaryTree<T> implements Iterable {
 				}
 				startNode = stack.pop();
 				list.add(startNode.getValue());
-			}while (stack.size() > 0);
+			}
 			return list;
 		}
 
+	}
+
+	public void printInOrder(Node<T> startNode) {
+
+		if (startNode != null) {
+
+			printInOrder(startNode.getLeftChild());
+			System.out.println(startNode.getValue());
+			printInOrder(startNode.getRightChild());
+		}
 	}
 
 	/**
