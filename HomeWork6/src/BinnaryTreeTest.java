@@ -15,12 +15,13 @@ public class BinnaryTreeTest {
 		myTree.add(8);
 
 
-		for (Object object : myTree) {
-			System.out.println(object);
-		}
-		System.out.println("Count " + myTree.getCount());
+//		for (Object object : myTree) {
+//			System.out.println(object);
+//		}
+//		System.out.println("Count " + myTree.getCount());
 		
 	
+		myTree.printInOrder(myTree.getRoot(),"");
 
 	}
 

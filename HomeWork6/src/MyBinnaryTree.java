@@ -205,13 +205,13 @@ public class MyBinnaryTree<T> implements Iterable {
 
 	}
 
-	public void printInOrder(Node<T> startNode) {
-
+	public void printInOrder(Node<T> startNode,String spaces) {
+	
 		if (startNode != null) {
 
-			printInOrder(startNode.getLeftChild());
-			System.out.println(startNode.getValue());
-			printInOrder(startNode.getRightChild());
+			printInOrder(startNode.getLeftChild()," ");
+			System.out.println(spaces+startNode.getValue());
+			printInOrder(startNode.getRightChild()," ");
 		}
 	}
 

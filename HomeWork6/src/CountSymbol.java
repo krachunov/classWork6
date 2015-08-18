@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class CountSymbol {
 
 	public static void countSymbol(String string) {
@@ -21,6 +23,9 @@ public class CountSymbol {
 	public static void main(String[] args) {
 		String text = "Did you know Math.Round rounds to the nearest even integer?";
 		countSymbol(text);
+		
+	
+		
 	}
 
 }
